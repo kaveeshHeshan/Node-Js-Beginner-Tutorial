@@ -1,9 +1,14 @@
 const asyncHandler = require('express-async-handler')
+
+const Location = require('../model/location')
+
 // @desc Get all location data
 // @route GET  /api/locations
 const getLocations = asyncHandler(
     async (req, res) => {
-        res.status(200).json({ message: "Get Locations" })
+
+        const locations = await Location.find()
+        res.status(200).json({ locations: locations })
     }
 )
 
@@ -12,11 +17,18 @@ const getLocations = asyncHandler(
 const addLocation = asyncHandler(
     async (req, res) => {
 
-        if (!req.body.name) {
+        if (!req.body.name || !req.body.address || !req.body.phone) {
             res.status(400)
-            throw new Error('The name field is required!')
+            throw new Error('Please fill required fields!')
         }
-        res.status(200).json({ message: "Add Location" })
+
+        const location = await Location.create({
+            name: req.body.name,
+            address: req.body.address,
+            phone: req.body.phone
+        })
+
+        res.status(200).json({ createLocation: location })
     }
 )
 
