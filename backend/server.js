@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // Get Api
 app.use('/api/locations', require('./routes/api'))
+app.use('/api/devices', require('./routes/deviceRoutes'))
 
 app.use(errorHandler)
 
