@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
 const Location = require('../model/location')
+const Device = require('../model/device')
 
 // @desc Get all location data
 // @route GET  /api/locations
@@ -17,7 +18,7 @@ const getLocations = asyncHandler(
 const addLocation = asyncHandler(
     async (req, res) => {
 
-        if (!req.body.name || !req.body.address || !req.body.phone || !req.body.location) {
+        if (!req.body.name || !req.body.address || !req.body.phone || !req.body.location || req.body.type.length <= 0 || req.body.status.length <= 0) {
             res.status(400)
             throw new Error('Please fill required fields!')
         }
@@ -27,9 +28,18 @@ const addLocation = asyncHandler(
             address: req.body.address,
             phone: req.body.phone
         })
+        for (var i = 0; i < req.body.type.length; i++) {
+            const device = await Device.create({
+                location: location.id,
+                type: req.body.type[i],
+                status: req.body.status[i]
+            })
+        }
+
+
 
         res.status(200).json({ createLocation: location })
-        // res.status(200).json({ createLocation: req.body.status.length })
+
     }
 )
 
