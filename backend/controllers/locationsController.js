@@ -18,7 +18,7 @@ const getLocations = asyncHandler(
 const addLocation = asyncHandler(
     async (req, res) => {
 
-        if (!req.body.name || !req.body.address || !req.body.phone || !req.body.location || req.body.type.length <= 0 || req.body.status.length <= 0) {
+        if (!req.body.name || !req.body.address || !req.body.phone || req.body.type.length <= 0 || req.body.status.length <= 0) {
             res.status(400)
             throw new Error('Please fill required fields!')
         }
@@ -35,8 +35,6 @@ const addLocation = asyncHandler(
                 status: req.body.status[i]
             })
         }
-
-
 
         res.status(200).json({ createLocation: location })
 

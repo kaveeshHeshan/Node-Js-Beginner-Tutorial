@@ -8,7 +8,7 @@ const getDevices = asyncHandler(
     async (req, res) => {
 
         const devices = await Device.find()
-        res.status(200).json({ locations: devices })
+        res.status(200).json({ devices: devices })
     }
 )
 
